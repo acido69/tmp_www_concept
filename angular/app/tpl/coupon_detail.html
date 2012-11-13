@@ -1,0 +1,22 @@
+<article id="coupon">
+    <header data-title="{{coupon.name}}" data-icon="back">
+        <h2><a href="#/coupons">&laquo;</a> {{coupon.name}}</h2>
+    </header>
+    <div class="card">
+        <img ng-src="{{coupon.icon_src}}" alt="{{coupon.name}}">
+        <span>{{coupon.name}}</span> / <span>{{coupon.categorie}}</span><br/>
+        <b>{{coupon.price}}</b><br/>
+        <span>{{coupon.expire_date}}</span>
+    </div>
+    <p><span>Tap on the coupon to use</span></p>
+    <p class="info">
+        {{coupon.info}}
+        <a href="#" class="more">Read more</a>
+    </p>
+    <div class="location">
+        <b>{{coupon.name}}</b>
+        <span>{{coupon.location.addr}}</span>
+        Tel:<span>{{coupon.location.phone}}</span>
+        <a href="#" class="more">7 More locations</a>
+    </div>
+</article>

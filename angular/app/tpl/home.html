@@ -1,0 +1,26 @@
+<article id="home">
+    <div class="offers">
+        <ul>
+            <li ng-repeat="offer in offers">
+                <img ng-src="{{offer.icon_src}}" alt="{{offer.name}}"/><br/>
+                <span>{{offer.name}}</span><br/>
+                <a href="#/coupon/{{offer.id}}">
+                    {{offer.price}}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p>
+        <a href="#coupons">See all</a>
+    </p>
+    <nav>
+        <ul>
+            <li><b>Send Money</b></li>
+            <li><b>Transactions</b></li>
+            <li><b>Messages (+{{messages}})</b></li>
+            <li><a href="#payment" class="payment">Payment</a></li>
+            <li><b>Loyalty</b></li>
+            <li><a href="#coupons" class="coupons">Coupons (+{{offers.length}})</a></li>
+        </ul>
+    </nav>
+</article>

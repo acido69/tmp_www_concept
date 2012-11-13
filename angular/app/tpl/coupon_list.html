@@ -1,0 +1,21 @@
+<article id="coupon-list" class="list scrollable">
+    <header data-title="Coupons" data-icon="back">
+        <h2> <a href="#/">&laquo;</a> Coupons</h2>
+    </header>
+    <ul>
+        <li ng-repeat="coupon in coupons" >
+            <div class="card">
+                <img ng-src="{{coupon.icon_src}}" alt="{{coupon.name}}">
+                <a href="#coupon/{{coupon.id}}">
+                    {{coupon.name}}
+                </a>
+                /
+                <span>{{coupon.categorie}}</span>
+                <br/>
+                <b>{{coupon.price}}</b>
+                <br/>
+                <span>{{coupon.expire_date}}</span>
+            </div>
+        </li>
+    </ul>
+</article>

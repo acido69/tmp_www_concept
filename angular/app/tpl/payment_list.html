@@ -1,0 +1,14 @@
+<article id="payment-list" class="list scrollable">
+    <header data-title="Payment" data-icon="back">
+        <h2> <a href="#/">&laquo;</a>Payment</h2>
+    </header>
+    <ul>
+        <li ng-repeat="payment in payments" >
+            <div class="card">
+                <a href="#payment/{{payment.id}}">
+                    <img ng-src="{{payment.icon_src}}" alt="{{payment.number}}"/>
+                </a>
+            </div>
+        </li>
+    </ul>
+</article>

@@ -1,0 +1,15 @@
+<article id="payment">
+    <header data-title="{{payment.number}}" data-icon="back">
+        <h2><a href="#/payment">&laquo;</a>{{payment.number}}</h2>
+    </header>
+    <div class="card">
+        <img ng-src="{{payment.icon_src}}" />
+    </div>
+    <p><span>Tap on the coupon to use</span></p>
+    <ul>
+        <li><a href="#">Balance</a></li>
+        <li><a href="#">Go to Bank</a></li>
+        <li><a href="payment/{{payment.id}}/message">Messages</a></li>
+        <li><a href="#">Settings</a></li>
+    </ul>
+</article>
