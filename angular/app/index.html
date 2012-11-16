@@ -15,85 +15,20 @@
     <link rel="stylesheet" href="/app/assets/stylesheets/theme_a/css/screen.css">
 
     <script src="/app/lib/angular.min.js"></script>
+    <script src="/app/lib/iscroll-lite.js"></script>
+
     <script src="/app/src/module/main.js"></script>
     <script src="/app/src/Service.js"></script>
     <script src="/app/src/App.js"></script>
     <script src="/app/src/controller/Coupon.js"></script>
     <script src="/app/src/controller/Coupons.js"></script>
-
     <script src="/app/src/controller/Payment.js"></script>
     <script src="/app/src/controller/Payments.js"></script>
-
     <script src="/app/src/controller/Home.js"></script>
-<!-- -->
-
 
 </head>
 
 <body>
     <div ng-view></div>
-
-<!--
-
-    <section id="main">
-        <header data-title="Cartera" data-icon="movistar">
-            <a href="#" data-icon="config" class="button onright">config</a>
-            <a href="#" data-icon="off" class="button onright">on-of</a>
-        </header>
-        <article id="home">
-            <div class="offers">
-                <ul>
-                    <li>
-                        <img src="./assets/images/droid.png" alt="offer"/>
-                    </li>
-                    <li>
-                        <img src="./assets/images/droid.png" alt="offer"/>
-                    </li>
-                    <li>
-                        <img src="./assets/images/droid.png" alt="offer"/>
-                    </li>
-
-
-                </ul>
-            </div>
-            <nav>
-                <ul>
-                    <li><b>Send Money</b></li>
-                    <li><b>Transactions</b></li>
-                    <li><b>Messages (+1)</b></li>
-                    <li><b>Payment (+1)</b></li>
-                    <li><b>Loyalty</b></li>
-                    <li><a href="#coupons">Coupons (+{{coupons.length}})</a></li>
-                </ul>
-            </nav>
-        </article>
-
-        <article id="coupon">
-            <header data-title="{{coupon.name}}" data-icon="back">
-                <h2>{{coupon.name}}</h2>
-            </header>
-            <div class="card">
-                <img src="{{coupon.icon_src}}" alt="{{coupon.name}}">
-                <span>{{coupon.name}}</span> / <span>{{coupon.categorie}}</span><br/>
-                <b>{{coupon.price}}</b><br/>
-                <span>{{coupon.expire_date}}</span>
-            </div>
-            <p><span>Tap on the coupon to use</span></p>
-
-            <p class="info">
-                {{coupon.info}}
-                <a href="#" class="more">Read more</a>
-            </p>
-            <div class="location">
-                <b>{{coupon.name}}</b>
-                <span>{{coupon.location.addr}}</span>
-                Tel:<span>{{coupon.location.phone}}</span>
-                <a href="#" class="more">7 More locations</a>
-            </div>
-        </article>
-    </section>
--->
-
-
 </body>
 </html>

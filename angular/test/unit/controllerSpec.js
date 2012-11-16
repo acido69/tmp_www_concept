@@ -23,11 +23,12 @@ describe('Wallet controllers', function(){
   describe('App.Controller.Coupon',  function(){
     var ctrl,
       scope,
+      route   = {},
       routeParams={couponId:100};
 
     beforeEach(function() {
       scope   = {},
-      ctrl    = new App.Controller.Coupon(scope, routeParams);
+      ctrl    = new App.Controller.Coupon(scope, route, routeParams);
     });
     //spec
     it("Coupon data is defined", function(){
@@ -61,11 +62,12 @@ describe('Wallet controllers', function(){
   describe('App.Controller.Payment',  function(){
     var ctrl,
       scope,
-      routeParams={paymentId:100};
+      route       = {},
+      routeParams = {paymentId:100};
 
     beforeEach(function() {
       scope   = {},
-      ctrl    = new App.Controller.Payment(scope, routeParams);
+      ctrl    = new App.Controller.Payment(scope, route, routeParams);
     });
     //spec
     it("Payment data is defined", function(){

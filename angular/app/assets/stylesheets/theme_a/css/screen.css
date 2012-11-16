@@ -1,37 +1,412 @@
+/*---------------------------------------------------
+    LESS Elements 0.6
+  ---------------------------------------------------
+    A set of useful LESS mixins by Dmitry Fadeyev
+    Special thanks for mixin suggestions to:
+      Kris Van Herzeele,
+      Benoit Adam,
+      Portenart Emile-Victor,
+      Ryan Faerman
+
+    More info at: http://lesselements.com
+-----------------------------------------------------*/
+/* reset.css */
+html {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+code,
+del,
+dfn,
+em,
+img,
+q,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+dialog,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
+}
+article,
+aside,
+dialog,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1.5;
+  background: white;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+caption,
+th,
+td {
+  text-align: left;
+  font-weight: normal;
+  float: none !important;
+}
+table,
+th,
+td {
+  vertical-align: middle;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+}
+blockquote,
+q {
+  quotes: "" "";
+}
+a img {
+  border: none;
+}
+:focus {
+  outline: 0;
+}
+/*
+this is hack for wrapper to float
+No change order
+*/
+.clearfix:after,
+.container:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+  overflow: hidden;
+}
+.clearfix {
+  display: block;
+}
+.clear {
+  clear: both;
+}
+body {
+  background: #999999 url(img/bg/piel.png);
+  font-family: "Trebuchet MS", Helvetica, Jamrul, sans-serif;
+  font-size: 11pt;
+  color: #b0b0b0;
+}
+body,
+header,
+header h2,
+article {
+  margin: 0;
+  padding: 0;
+}
+a {
+  color: #b0b0b0;
+  text-decoration: none;
+}
 ul,
 ol {
   margin: 0;
   padding: 0;
 }
-.offers {
-  display: block;
-  height: 200px;
-  width: 100%;
-  overflow: auto;
+header {
+  height: 60px;
+  overflow: hidden;
+  background-image: url(img/bg/header_secondary.png);
 }
-.offers ul {
-  width: 1800px;
+header h1 {
+  line-height: 58px;
+  margin: 0 10px;
+  font-size: 150%;
 }
-.offers li {
-  list-style-type: none;
-  float: left;
-  width: 100px;
+.centered {
   text-align: center;
-  margin: 5px;
 }
-.coupon-list li {
-  list-style-type: none;
+.scroller-wraper {
+  position: relative;
+  /* On older OS versions "position" and "z-index" must be defined, */
+
+  z-index: 1;
+  /* it seems that recent webkit is less picky and works anyway. */
+
+  overflow: hidden;
+}
+.scroller {
+  /* esta propiedad se setea en la definición de cada sección
+  width:100%; */
+
+  float: left;
+  padding: 0;
 }
 .card {
-  margin: 5px 0;
-  padding: 5px;
-  background-color: #ccc;
-  height: 90px;
+  background: #cccccc url(img/bg/card.png);
+  border-bottom: 1px dashed #acacac;
+  color: #333;
+  padding: 30px 15px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+.card a {
+  text-decoration: none;
+  color: #333333;
+}
+.card b {
+  font-size: 120%;
 }
 .card img {
   float: left;
   margin-right: 10px;
 }
-#coupon .info {
-  font-style: italic;
+.card .categorie {
+  color: #999999;
+}
+#home header {
+  color: #3d9fbd;
+  background: #005183;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #004672), color-stop(1, #005183));
+  background: -ms-linear-gradient(bottom, #004672, #005183);
+  background: -moz-linear-gradient(center bottom, #004672 0%, #005183 100%);
+}
+#home nav {
+  border-top: #1c658e 1px solid;
+  text-align: center;
+}
+#home nav a {
+  margin-right: 20px;
+  overflow: hidden;
+  display: inline-block;
+  width: 125px;
+}
+#home nav a.last {
+  margin-right: 0;
+}
+#home nav .info-wrapper {
+  background: #00a3c3;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #00a3c3), color-stop(1, #016c8e));
+  background: -ms-linear-gradient(bottom, #00a3c3, #016c8e);
+  background: -moz-linear-gradient(center bottom, #00a3c3 0%, #016c8e 100%);
+}
+#home nav .info {
+  padding: 27px 0 45px 0;
+  background: transparent url(img/bg/home_picker.png) no-repeat center bottom;
+}
+#home nav .info a {
+  color: #fff;
+  height: 40px;
+  padding-top: 95px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+#home nav .tools {
+  margin: 30px 20px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  background: #393738;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #201f20), color-stop(1, #393738));
+  background: -ms-linear-gradient(bottom, #201f20, #393738);
+  background: -moz-linear-gradient(center bottom, #201f20 0%, #393738 100%);
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+#home nav .tools a {
+  color: #bebebe;
+  height: 35px;
+  width: 30%;
+  margin: 0;
+  padding-top: 70px;
+}
+#home nav a#money {
+  background: #009ebe url(img/bg/home_btn_people.png) no-repeat center 10px;
+}
+#home nav a#transaction {
+  background: #009ebe url(img/bg/home_btn_money.png) no-repeat center 10px;
+}
+#home nav a#message {
+  background: #009ebe url(img/bg/home_btn_message.png) no-repeat center 10px;
+}
+#home nav a#paryment {
+  background: transparent url(img/bg/home_btn_card.png) no-repeat center 5px;
+}
+#home nav a#loyalty {
+  background: transparent url(img/bg/home_btn_offer.png) no-repeat center 5px;
+}
+#home nav a#coupon {
+  background: transparent url(img/bg/home_btn_coupon.png) no-repeat center 5px;
+}
+#home .offers {
+  background: #2e88aa;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #2e88aa), color-stop(1, #1c658e));
+  background: -ms-linear-gradient(bottom, #2e88aa, #1c658e);
+  background: -moz-linear-gradient(center bottom, #2e88aa 0%, #1c658e 100%);
+  width: 100%;
+  padding: 10px 0 25px 0;
+  color: #fff;
+}
+#home .offers a {
+  color: #fff;
+}
+#home .offers ul {
+  width: 675px;
+}
+#home .offers li {
+  list-style-type: none;
+  float: left;
+  width: 100px;
+  text-align: center;
+  margin: 15px 5px;
+}
+#home .offers img {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+#home .show-all {
+  position: absolute;
+  margin-top: -25px;
+  right: 5px;
+  color: #fff;
+  z-index: 2;
+}
+#coupon-list header {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+}
+#coupon-list .scroller {
+  width: 100%;
+}
+#coupon-list .scroller-wrapper {
+  width: 100%;
+  top: 60px;
+  bottom: 0;
+  position: absolute;
+  z-index: 1;
+}
+#coupon-list .scroller-wrapper ul {
+  width: 100%;
+  padding: 20px 0;
+}
+#coupon-list .scroller-wrapper li {
+  list-style: none;
+  margin: 0 30px;
+}
+#coupon-detail .info,
+#coupon-detail .location {
+  color: #fff;
+  margin: 30px 30px 0 30px;
+}
+#coupon-detail .card {
+  margin: 15px 30px;
+  border: 0;
+}
+#payment-list header {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+}
+#payment-list footer {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  bottom: 0;
+}
+#payment-list li {
+  text-align: center;
+}
+#payment-list .scroller-wrapper {
+  width: 100%;
+  top: 60px;
+  bottom: 45px;
+  position: absolute;
+  z-index: 1;
+}
+@media all and (max-width: 470px) {
+  body {
+    -webkit-text-size-adjust: none;
+  }
+  #payment-list li img,
+  #payment-list footer img {
+    width: 100%;
+  }
+  #payment-detail .card-pic img {
+    width: 100%;
+  }
+  #home nav a,
+  #home nav b {
+    width: 25%;
+  }
 }

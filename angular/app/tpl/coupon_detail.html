@@ -1,6 +1,6 @@
-<article id="coupon">
+<article id="coupon-detail">
     <header data-title="{{coupon.name}}" data-icon="back">
-        <h2><a href="#/coupons">&laquo;</a> {{coupon.name}}</h2>
+        <h1><a href="#/coupons">&laquo;</a> {{coupon.name}}</h1>
     </header>
     <div class="card">
         <img ng-src="{{coupon.icon_src}}" alt="{{coupon.name}}">
@@ -8,15 +8,18 @@
         <b>{{coupon.price}}</b><br/>
         <span>{{coupon.expire_date}}</span>
     </div>
-    <p><span>Tap on the coupon to use</span></p>
+    <p class="centered">
+        Tap on the coupon to use
+    </p>
     <p class="info">
-        {{coupon.info}}
+        {{coupon.info}}<br/>
         <a href="#" class="more">Read more</a>
     </p>
+
     <div class="location">
-        <b>{{coupon.name}}</b>
-        <span>{{coupon.location.addr}}</span>
-        Tel:<span>{{coupon.location.phone}}</span>
+        <b>{{coupon.name}}</b><br/>
+        <span>{{coupon.location.addr}}</span><br/>
+        Tel:<span>{{coupon.location.phone}}</span><br/>
         <a href="#" class="more">7 More locations</a>
     </div>
 </article>

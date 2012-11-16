@@ -25,7 +25,23 @@ Service.Coupon = function(id){
 Service.Payment = function(id){
   var payment = {
       'id':100,
-      'icon_src':'./assets/images/coupon.png',
+      'icon_src':'./assets/images/payment.png',
+      'icon_thumb_src':'./assets/images/payment_thumb_a.png',
+      'number':'000 0000 00 00000000',
+      'messages':[
+        {'status_code':0,'type':1,'title':'Consigue ahora tu VISA Oro, totalmente gratis'},
+        {'status_code':0,'type':2,'title':'Tienes pendiente esta renovaciónv'},
+        {'status_code':1,'type':2,'title':'Tienes pendiente esta renovaciónv'},
+        {'status_code':1,'type':3,'title':'Consulta ahora la nueva comisión de tu tajeta'},
+        {'status_code':0,'type':3,'title':'Consulta ahora la nueva comisión de tu tajeta'},
+        {'status_code':1,'type':3,'title':'Tienes pendiente esta renovación'},
+        {'status_code':1,'type':2,'title':'Tienes pendiente esta renovaciónv'}
+      ]
+    },
+    payment_b = {
+      'id':100,
+      'icon_src':'./assets/images/payment.png',
+      'icon_thumb_src':'./assets/images/payment_thumb_b.png',
       'number':'000 0000 00 00000000',
       'messages':[
         {'status_code':0,'type':1,'title':'Consigue ahora tu VISA Oro, totalmente gratis'},
@@ -41,6 +57,6 @@ Service.Payment = function(id){
   if (id){
     return payment;
   }else{
-    return [payment,payment,payment,payment,payment,payment];
+    return [payment,payment_b,payment,payment_b,payment,payment_b];
   }
 };

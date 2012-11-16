@@ -5,11 +5,11 @@ Prueba de concepto Lungo & Angular
 
 Angular Js
 ----------
-
-1. run web server  `./angular/scripts/web-server.js` *(NodeJS)*
-2. navegate <http://localhost:8000/app/index.html>
-3. run unit test `./angular/scripts/test.sh` *(need Testacular)*
-4. run e2e test `./angular/scripts/e2e-test.sh` *(need Testacular)*
+1. move to `./angular` dir
+2. run web server  `./scripts/web-server.js` *(NodeJS)*
+3. navegate <http://localhost:8000/app/index.html>
+4. run unit test `./scripts/test.sh` *(need Testacular)*
+5. run e2e test `./scripts/e2e-test.sh` *(need Testacular)*
 
 LungoJS
 -------
