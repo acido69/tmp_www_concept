@@ -15,6 +15,14 @@ describe('Wallet App :: ', function() {
       it('goto payment list', function() {
         element('.payment').click();
         expect(browser().location().url()).toBe('/payment');
+        
+        // Roy - check count of payment items.
+        expect(repeater('li').count()).toBe(6);
+        
+        // Roy - check clicking on etakes you to the correct payment.
+        element('li a').click();
+        expect(browser().location().url()).toBe('/payment/100');
+        browser().navigateTo('/app/index.html');
       });
       it('goto coupon list', function() {
         element('.coupons').click();
