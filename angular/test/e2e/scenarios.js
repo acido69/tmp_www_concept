@@ -1,132 +1,81 @@
+'use strict';
+
+//
+// Fetch the test functions used for stepping through the application.
+//
+document.write("<script type='text/javascript' src='testSteps.js'></scr"+"ipt>");
+
+//
+// Now begin the tests ...
+//
 describe('Wallet App :: ', function() {
 
-  describe('Home / ', function() {
-
+    var urlHome = "/app/index.html";
+    
+    // Always start at the top ...
     beforeEach(function() {
-      browser().navigateTo('/app/index.html');
+        browser().navigateTo(urlHome);
     });
 
-    it('should show all offers', function() {
-      expect(repeater('.offers li').count()).toBe(6);
+    // Home page
+    describe('HOME page', function() {
+        it ('should contain some clickable coupons (offers?) along the top', function() {
+            expect(repeater('.offers li a').count()).toBeGreaterThan(1);
+        });
     });
 
-    describe('Check navigation link...', function() {
-
-      it('goto payment list', function() {
-        element('.payment').click();
-        expect(browser().location().url()).toBe('/payment');
+    // VOUCHERS along the top.
+    describe('VOUCHER links along the top', function() {
         
-        // Roy - check count of payment items.
-        expect(repeater('li').count()).toBe(6);
-        
-        // Roy - check clicking on etakes you to the correct payment.
-        element('li a').click();
-        expect(browser().location().url()).toBe('/payment/100');
-        browser().navigateTo('/app/index.html');
-      });
-      it('goto coupon list', function() {
-        element('.coupons').click();
-        expect(browser().location().url()).toBe('/coupons');
-      });
-      it('go to offer list', function() {
-        element('.offers li a').click();
-        //esto es una tranpa porque lo mando a cupones
-        expect(browser().location().url()).toBe('/coupon/100');
-        browser().navigateTo('/app/index.html');
-      });
+        it ('for each voucher', function() {
+                       
+            // Identifies the 'vouchers' (called 'offers' here?).
+            var linkList = '.offers li a';
+            
+            // Run tests against each voucher listed across the top of the screen ...
+            console.log('NEED TO FIND A WAY TO CHECK FOR SCROLLBAR!!');
+            element(linkList).query(function (selectedElements, done) {
+                
+                selectedElements.each(function(idx,elm) {
+            
+                    //
+                    // We need this info for all testSteps, so define them
+                    // here and pass them in.
+                    // 
+                    
+                    // create a jQuery selector string that will match this current voucher.
+                    var thisVoucherSel = linkList + ':eq(' + idx + ')';
+                    
+                    // Typo in the app says "vouncher" instead of "voucher".
+                    //expect(element(strElement).html()).toContain('voucher when you spend');
+                    expect(element(thisVoucherSel).html()).toContain('vouncher when you spend');                    
 
+                    // Clicking it should take you to the correct page.
+                    // Get the last partof the path.
+                    // ( 'this' is shorthand for 'selectElements[idx]' )
+                    var thisVoucherURLFull = new String(this);
+                    var thisVoucherURL = thisVoucherURLFull.slice(thisVoucherURLFull.indexOf("#")+1);
+
+                    //
+                    // Now run the test steps to cover every e2e possibility.
+                    //
+                    function runTests(arrIn){
+                        testSteps(arrIn, urlHome, thisVoucherSel, thisVoucherURL);
+                    };
+                
+                    runTests([1,2]); 
+//                    runTests([1,3,5]);
+//                    runTests([1,3,4,2]);
+//                    runTests([1,3,4,3,5]);
+//                    runTests([6,4,2]);
+//                    runTests([6,4,3,5]);
+//                    runTests([6,5]);
+                        
+                    // Return to the home level so we can try the next coupon.
+                    browser().navigateTo(urlHome);
+                });
+                done();
+            });
+        });
     });
-
-  });
-
-  describe('Coupon List / ', function() {
-
-    beforeEach(function() {
-      browser().navigateTo('/app/index.html#/coupons');
-    });
-
-    it('should show all coupons', function() {
-      expect(repeater('#coupon-list li').count()).toBe(6);
-    });
-
-    describe('Check navigation link...', function() {
-
-      it('goto Home with back button', function() {
-        element('header a').click();
-        expect(browser().location().url()).toBe('/');
-      });
-
-      it('goto Coupon detail fron list', function() {
-        element('#coupon-list li a').click();
-        expect(browser().location().url()).toBe('/coupon/100');
-      });
-    });
-
-  });
-
-  describe('Coupon Detail / ', function() {
-
-    beforeEach(function() {
-      browser().navigateTo('/app/index.html#/coupon/100');
-    });
-
-
-    describe('Check navigation link...', function() {
-
-      it('goto Home with back button', function() {
-        element('header a').click();
-        expect(browser().location().url()).toBe('/coupons');
-      });
-
-    });
-
-  });
-
-  describe('Payment List/ ', function() {
-
-    beforeEach(function() {
-      browser().navigateTo('/app/index.html#/payment');
-    });
-
-    it('should show all payments', function() {
-      expect(repeater('#payment-list li').count()).toBe(6);
-    });
-
-    describe('Check navigation link...', function() {
-
-      it('goto Home with back button', function() {
-        element('header a').click();
-        expect(browser().location().url()).toBe('/');
-      });
-
-      it('goto payment detail fron list', function() {
-        element('#payment-list li a').click();
-        expect(browser().location().url()).toBe('/payment/100');
-      });
-    });
-
-  });
-
-  describe('Payment Detail / ', function() {
-
-    beforeEach(function() {
-      browser().navigateTo('/app/index.html#/payment/100');
-    });
-
-
-    describe('Check navigation link...', function() {
-
-      it('goto Home with back button', function() {
-        element('header a').click();
-        expect(browser().location().url()).toBe('/payment');
-      });
-
-    });
-
-  });
-
-
-
-
-
 });
