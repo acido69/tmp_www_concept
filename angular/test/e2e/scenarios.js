@@ -18,6 +18,7 @@ var p_tr = "";
 // 
 //document.write("<script type='text/javascript' src='testSteps.js'></scr"+"ipt>");
 //document.write("<script type='text/javascript' src='testScreens.js'></scr"+"ipt>");
+document.write("<script type='text/javascript' src='jquery-1.8.3.min.js'></script>");
 
 //==============================================================================
 //
@@ -32,7 +33,7 @@ function s0(){
     describe(p_tr + 's0 : Go to home screen', function() {
         it('without any testing (for speed)', function() {
             browser().navigateTo(urlHome);
-        });
+        }); 
     });
 };
 
@@ -146,7 +147,7 @@ function s1(){
 
         describe('has a "Payment" link', function() {
             it ('which takes us to the payment screen (credit cards)', function() {
-// Error in the code naming here!!!
+console.log('s1: element "paryment" should be "payment".');
                 expect(element('#paryment').html()).toBe("Payment");
                 element('#paryment').click(); 
                 expect(browser().location().url()).toBe('/payment');
@@ -252,30 +253,36 @@ function s3(){
                 expect(browser().location().url()).toBe('/');
             });
         
+            //
+            // Loop through all coupons and check each one takes us to the
+            // correct coupon detail page.
+            //
             it('the coupon name', function() {
-                element('.card a').click();
-                expect(browser().location().url()).toBe('/coupon/100');
+                element('.card a').query(function (selectedElements2, done) {
+                    selectedElements2.each(function(idx,elm) {
+                        var x = '.card a:eq(' + idx + ')';
+                        var clickedLinkText = $(this).text().replace(/\n +/g,'');
+                        var clickedHref = $(this).attr("href").replace(/./, '/');
+                        element(x).click();
+                        expect(binding('coupon.name')).toBe(clickedLinkText); //Removes "\n      " from the element text field.
+                        expect(browser().location().url()).toBe(clickedHref);
+                        browser().navigateTo(urlHome + "#/coupons");
+                    });
+                    done();
+                });
             });
-        
         });
-    
     });
 };
 
 function s4(){
     describe(p_tr + 's4 : Payment list screen', function() {
         
-        // Check we are in the right screen type.
-        it('- verify we are in the payment list screen', function() {
-          expect(browser().location().url()).toBe('/payment');
+        afterEach(function() {
+            browser().navigateTo(urlHome + "#/payment");
         });
 
-
         describe('has a working link for', function() {
-            afterEach(function() {
-                browser().navigateTo(urlHome + "#/payment");
-            });
-        
             it('the "Payment" screen', function() {
                 element('header a').click();
                 expect(browser().location().url()).toBe('/');
@@ -289,22 +296,32 @@ function s4(){
                     selectedElements.each(function(idx,elm) {
 
                         var thisPayment = listSel + ':eq(' + idx + ')';
-                        element(thisPayment).click();
-                        
-                        // Serious nonsense!! You can't get the value of the clicked
-                        // link name into anything that can be used to compare! ;( ;( ;(
-                        // I guess this means you have to hard code a value, or just
-                        // never test for this!
-console.log("s4: hardcoded value for payment id!");
-                        expect (binding('payment.number')).toBe("000 0000 00 00000000");
 
-                        // Go back to the payment page to try the next click.
-                        browser().navigateTo(urlHome + "#/payment");
+                        element('li a img:eq(' + idx + ')').query(function (selectedElements2, done) {
+                            selectedElements2.each(function(idx2,elm2) {
+                                var thisPaymentNumber = $(this).attr('alt');
+
+                                // Start at the payment page before each click.
+                                browser().navigateTo(urlHome + "#/payment");
+
+                                // 
+                                // Check the payment number (card number) in the payment detail screen 
+                                // matches the card clicked in the payment list screen.
+                                //
+                                element(thisPayment).click();
+                                expect(browser().location().url()).toBe('/payment/100');
+                                expect(binding('payment.number')).toBe(thisPaymentNumber); 
+                                
+                                return false; // Make sure we only ever bother with the first 'img' (in case there's > 1 in this 'a').
+                            });
+                            
+                            done();
+                        });                        
                     });
                     done();
                 });
             });
-        });   
+        });
     });
 };
 
@@ -313,7 +330,7 @@ function s5(){
         
         // Check we are in the right screen type.
         it('- verify we are in the payment detail screen', function() {
-          expect(browser().location().url()).toContain('/payment/');
+          expect(browser().location().url()).toContain('/payment');
         });
 
         it('has all expected bindings', function() {
@@ -322,7 +339,7 @@ function s5(){
     
         describe('has a working link for', function() {
             afterEach(function() {
-console.log("s5: hardcoded url(s) for payment detail screen!");
+console.log("s5: hardcoded url for payment detail screen!");
                 browser().navigateTo(urlHome + "#/payment/100");
             });
         
@@ -341,7 +358,7 @@ console.log("s5: hardcoded url(s) for payment detail screen!");
                 expect(browser().location().url()).toBe('/');
             });
         
-console.log("s5: not running test against 'messages'!");
+console.log("s5: not running test against 'messages' (can't trap 404 errors at the moment)!");
             xit ('Messages', function() {
                 element('li a:eq(2)').click();
                 expect(browser().location().url()).toBe('/');
@@ -541,7 +558,6 @@ function c13(){
 
 // Click a card in the payment screen.
 function c14(p_num){
-console.log("c14: Need to make the expected url dynamic.");
     describe(p_tr + 'c14 : Clicking a card in the payment screen', function() {
         
         var elementSel = "li a";
@@ -552,8 +568,17 @@ console.log("c14: Need to make the expected url dynamic.");
     
         it('takes you to the expected screen', function() {
             expect(browser().location().url()).toBe('/payment');
-            element(elementSel).click();
-            expect(browser().location().url()).toContain('/payment/');
+
+			element(elementSel).query(function (selectedElements, done) {
+				selectedElements.each(function(idx,elm) {
+					var clickedHref = $(this).attr("href").replace(/./,'/');
+					element(elementSel).click();
+					expect(browser().location().url()).toBe(clickedHref);
+					
+					return false; // We only need to do this once.
+				});
+				done();
+			});
         });
     });
 };
@@ -572,8 +597,20 @@ function c15(){
 function c16(){
     describe(p_tr + 'c16 : Clicking the "Balance" link in the payment/:id screen', function() {
         it('takes you to the expected screen', function() {
-            element('li a:eq(0)').click();
-            expect(browser().location().url()).toBe('/');
+
+			expect(browser().location().url()).toContain('/payment');
+			
+			var elementSel = 'li a';
+			element(elementSel).query(function (selectedElements, done) {
+				selectedElements.each(function(idx,elm) {
+					if ( $(this).text() === "Balance" ) { // Only interested in this one.
+						var clickedHref = $(this).attr("href").replace(/./,'/');
+						element('li a:eq(' + idx + ')').click();
+						expect(browser().location().url()).toBe(clickedHref);
+					}
+				});
+				done();
+			});
         });
     });
 };
@@ -582,8 +619,20 @@ function c16(){
 function c17(){
     describe(p_tr + 'c17 : Clicking the "Go to Bank" link in the payment/:id screen', function() {
         it('takes you to the expected screen', function() {
-            element('li a:eq(1)').click();
-            expect(browser().location().url()).toBe('/');
+
+			expect(browser().location().url()).toContain('/payment');
+			
+			var elementSel = 'li a';
+			element(elementSel).query(function (selectedElements, done) {
+				selectedElements.each(function(idx,elm) {
+					if ( $(this).text() === "Go to Bank" ) { // Only interested in this one.
+						var clickedHref = $(this).attr("href").replace(/./,'/');
+						element('li a:eq(' + idx + ')').click();
+						expect(browser().location().url()).toBe(clickedHref);
+					}
+				});
+				done();
+			});
         });
     });
 };
@@ -592,20 +641,43 @@ function c17(){
 function c18(){
     describe(p_tr + 'c18 : Clicking the "Settings" link in the payment/:id screen', function() {
         it('takes you to the expected screen', function() {
-            element('li a:eq(3)').click();
-            expect(browser().location().url()).toBe('/');
+
+			expect(browser().location().url()).toContain('/payment');
+			
+			var elementSel = 'li a';
+			element(elementSel).query(function (selectedElements, done) {
+				selectedElements.each(function(idx,elm) {
+					if ( $(this).text() === "Settings" ) { // Only interested in this one.
+						var clickedHref = $(this).attr("href").replace(/./,'/');
+						element('li a:eq(' + idx + ')').click();
+						expect(browser().location().url()).toBe(clickedHref);
+					}
+				});
+				done();
+			});
         });
     });
 };
 
 // Click the "Messages" link in the payment/:id screen.
 function c19(){
-console.log("c19: Need to make the expected url dynamic.");
     describe(p_tr + 'c19 : Clicking the "Messages" link in the payment/:id screen', function() {
         it('takes you to the expected screen', function() {
-            element('li a:eq(2)').click();
-            expect(browser().location().url()).toContain('/message');
-        });
+		
+			expect(browser().location().url()).toContain('/payment');
+			
+			var elementSel = 'li a';
+			element(elementSel).query(function (selectedElements, done) {
+				selectedElements.each(function(idx,elm) {
+					if ( $(this).text() === "Messages" ) { // Only interested in this one.
+						var clickedHref = $(this).attr("href").replace(/./,'/');
+						element('li a:eq(' + idx + ')').click();
+						expect(browser().location().url()).toBe(clickedHref);
+					}
+				});
+				done();
+			});
+		});
     });
 };
 
@@ -666,8 +738,8 @@ describe('Wallet App :: ', function() {
         };
     };
 
-console.log('NEED TO FIND A WAY TO CHECK FOR SCROLLBARS!!');
-console.log('test "c19" is not testable currently (invalid link).');
+console.log('TODO 1: FIND A WAY TO CHECK FOR SCROLLBARS.');
+console.log('TODO 2: FIND A WAY TO CHECK FOR "404 page not found".');
 
 
     //
@@ -675,7 +747,7 @@ console.log('test "c19" is not testable currently (invalid link).');
     // (start in home screen each time).
     //
     // COUPONS
-    // Links ...
+    // Links ...    
     runTests(['s0','c1(1)']);
     runTests(['s0','c1','c2']);
     runTests(['s0','c1','c3','c5']);
@@ -689,7 +761,6 @@ console.log('test "c19" is not testable currently (invalid link).');
     runTests(['s0','c1(1)','s2(!YOU Sushi)']);  // Coupon detail screen.
     runTests(['s0','c6','s3']);                 // Coupons screen.
 
-
     // PAYMENTS
     // Links ...
     runTests(['s0','c7']);
@@ -701,11 +772,10 @@ console.log('test "c19" is not testable currently (invalid link).');
     runTests(['s0','c12','c14','c16']);
     runTests(['s0','c12','c14','c17']);
     runTests(['s0','c12','c14','c18']);
-    //runTests(['s1','c12','c14','c19']); // Cannot do just now (code issue).
+    runTests(['s1','c12','c14','c19']); 
     // Screens ...
     runTests(['s0','c12','s4']);            // Payment list.
     runTests(['s0','c12','c14(1)','s5']);   // Payment detail.
-
 });
 
 
