@@ -93,20 +93,23 @@ function s1(){
                         var thisCoupon = '.offers li a:eq(' + idx + ')';
 
                         // Typo in the app says "vouncher" instead of "voucher".
-                        //expect(element(strElement).html()).toContain('voucher when you spend');
-                        expect(element(thisCoupon).html()).toContain('vouncher when you spend');                    
+                        expect(element(thisCoupon).html()).toContain('voucher when you spend');
+                        //expect(element(thisCoupon).html()).toContain('vouncher when you spend');                    
 
-                        // Clicking it should take you to the correct page.
-                        element(thisCoupon).click();
+                        // 
+                        // Check oupon name in next screen matches the name in this screen.
+                        //
+                        element('.offers li span:eq(' + idx + ')').query(function(x, done) {
+                            
+                            // Clicking it should take you to the correct page.
+                            element(thisCoupon).click();
                         
-                        // Serious nonsense!! You can't get the value of the clicked
-                        // link name into anything that can be used to compare! :( :( :(
-                        // I guess this means you have to hard code a value, or just
-                        // never test for this!
-                        expect (binding('coupon.name')).toBe("!YOU Sushi");
+                            expect (binding('coupon.name')).toBe(x.text());
+                            done();
 
-                        // Now return back to the page we're testing here so we can test the rest.
-                        browser().navigateTo(urlHome);
+                            // Now return back to the page we're testing here so we can test the rest.
+                            browser().navigateTo(urlHome);
+                        });
                     });
                     done();
                 });
@@ -451,16 +454,19 @@ function c4(p_num){
                 elementSel += ":eq(" + p_num + ")";
             };
     
-            // Get the coupon name so we can check we go the the correct screen after 
-            // clicking the link.
-            // I *should* able to use element() or something to check the binding
-            // on the next page, but it returns an unuseable 'future' object!
-//            console.log ("X: " + element(elementSel).text());
-    
-            var thisCoupon = "!YOU Sushi"; // ;(
-    
-            element(elementSel).click();
-            expect(binding('coupon.name')).toBe(thisCoupon);
+            // Compare coupon name in the link to coupon name on the next page.
+            //
+            element(elementSel).query(function(x, done) {
+                x.each(function(idx,elm) {
+                    
+                    element(elementSel).click();
+                    expect(binding('coupon.name')).toBe($(this).text().replace(/\n +/g,''));
+                    
+                    return false; // Only do this once.
+                    
+                });
+                done();
+            });
         });
     });
 };
@@ -569,16 +575,16 @@ function c14(p_num){
         it('takes you to the expected screen', function() {
             expect(browser().location().url()).toBe('/payment');
 
-			element(elementSel).query(function (selectedElements, done) {
-				selectedElements.each(function(idx,elm) {
-					var clickedHref = $(this).attr("href").replace(/./,'/');
-					element(elementSel).click();
-					expect(browser().location().url()).toBe(clickedHref);
-					
-					return false; // We only need to do this once.
-				});
-				done();
-			});
+            element(elementSel).query(function (selectedElements, done) {
+                selectedElements.each(function(idx,elm) {
+                    var clickedHref = $(this).attr("href").replace(/./,'/');
+                    element(elementSel).click();
+                    expect(browser().location().url()).toBe(clickedHref);
+                    
+                    return false; // We only need to do this once.
+                });
+                done();
+            });
         });
     });
 };
@@ -598,19 +604,19 @@ function c16(){
     describe(p_tr + 'c16 : Clicking the "Balance" link in the payment/:id screen', function() {
         it('takes you to the expected screen', function() {
 
-			expect(browser().location().url()).toContain('/payment');
-			
-			var elementSel = 'li a';
-			element(elementSel).query(function (selectedElements, done) {
-				selectedElements.each(function(idx,elm) {
-					if ( $(this).text() === "Balance" ) { // Only interested in this one.
-						var clickedHref = $(this).attr("href").replace(/./,'/');
-						element('li a:eq(' + idx + ')').click();
-						expect(browser().location().url()).toBe(clickedHref);
-					}
-				});
-				done();
-			});
+            expect(browser().location().url()).toContain('/payment');
+            
+            var elementSel = 'li a';
+            element(elementSel).query(function (selectedElements, done) {
+                selectedElements.each(function(idx,elm) {
+                    if ( $(this).text() === "Balance" ) { // Only interested in this one.
+                        var clickedHref = $(this).attr("href").replace(/./,'/');
+                        element('li a:eq(' + idx + ')').click();
+                        expect(browser().location().url()).toBe(clickedHref);
+                    }
+                });
+                done();
+            });
         });
     });
 };
@@ -620,19 +626,19 @@ function c17(){
     describe(p_tr + 'c17 : Clicking the "Go to Bank" link in the payment/:id screen', function() {
         it('takes you to the expected screen', function() {
 
-			expect(browser().location().url()).toContain('/payment');
-			
-			var elementSel = 'li a';
-			element(elementSel).query(function (selectedElements, done) {
-				selectedElements.each(function(idx,elm) {
-					if ( $(this).text() === "Go to Bank" ) { // Only interested in this one.
-						var clickedHref = $(this).attr("href").replace(/./,'/');
-						element('li a:eq(' + idx + ')').click();
-						expect(browser().location().url()).toBe(clickedHref);
-					}
-				});
-				done();
-			});
+            expect(browser().location().url()).toContain('/payment');
+            
+            var elementSel = 'li a';
+            element(elementSel).query(function (selectedElements, done) {
+                selectedElements.each(function(idx,elm) {
+                    if ( $(this).text() === "Go to Bank" ) { // Only interested in this one.
+                        var clickedHref = $(this).attr("href").replace(/./,'/');
+                        element('li a:eq(' + idx + ')').click();
+                        expect(browser().location().url()).toBe(clickedHref);
+                    }
+                });
+                done();
+            });
         });
     });
 };
@@ -642,19 +648,19 @@ function c18(){
     describe(p_tr + 'c18 : Clicking the "Settings" link in the payment/:id screen', function() {
         it('takes you to the expected screen', function() {
 
-			expect(browser().location().url()).toContain('/payment');
-			
-			var elementSel = 'li a';
-			element(elementSel).query(function (selectedElements, done) {
-				selectedElements.each(function(idx,elm) {
-					if ( $(this).text() === "Settings" ) { // Only interested in this one.
-						var clickedHref = $(this).attr("href").replace(/./,'/');
-						element('li a:eq(' + idx + ')').click();
-						expect(browser().location().url()).toBe(clickedHref);
-					}
-				});
-				done();
-			});
+            expect(browser().location().url()).toContain('/payment');
+            
+            var elementSel = 'li a:eq(0)';
+            element(elementSel).query(function (selectedElements, done) {
+                selectedElements.each(function(idx,elm) {
+                    if ( $(this).text() === "Settings" ) { // Only interested in this one.
+                        var clickedHref = $(this).attr("href").replace(/./,'/');
+                        element('li a:eq(' + idx + ')').click();
+                        expect(browser().location().url()).toBe(clickedHref);
+                    }
+                });
+                done();
+            });
         });
     });
 };
@@ -663,21 +669,21 @@ function c18(){
 function c19(){
     describe(p_tr + 'c19 : Clicking the "Messages" link in the payment/:id screen', function() {
         it('takes you to the expected screen', function() {
-		
-			expect(browser().location().url()).toContain('/payment');
-			
-			var elementSel = 'li a';
-			element(elementSel).query(function (selectedElements, done) {
-				selectedElements.each(function(idx,elm) {
-					if ( $(this).text() === "Messages" ) { // Only interested in this one.
-						var clickedHref = $(this).attr("href").replace(/./,'/');
-						element('li a:eq(' + idx + ')').click();
-						expect(browser().location().url()).toBe(clickedHref);
-					}
-				});
-				done();
-			});
-		});
+        
+            expect(browser().location().url()).toContain('/payment');
+            
+            var elementSel = 'li a';
+            element(elementSel).query(function (selectedElements, done) {
+                selectedElements.each(function(idx,elm) {
+                    if ( $(this).text() === "Messages" ) { // Only interested in this one.
+                        var clickedHref = $(this).attr("href").replace(/./,'/');
+                        element('li a:eq(' + idx + ')').click();
+                        expect(browser().location().url()).toBe(clickedHref);
+                    }
+                });
+                done();
+            });
+        });
     });
 };
 
